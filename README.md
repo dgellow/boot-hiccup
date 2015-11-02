@@ -1,4 +1,4 @@
-# boot-hiccup
+# boot-hiccup [![Circle CI](https://circleci.com/gh/dgellow/boot-hiccup.svg?style=svg)](https://circleci.com/gh/dgellow/boot-hiccup)
 
 [](dependency)
 ```
