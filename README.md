@@ -1,6 +1,10 @@
 # boot-hiccup
 
-`[dgellow/boot-hiccup "0.1.0-SNAPSHOT"]`
+[](dependency)
+```
+[dgellow/boot-hiccup "0.1.0-SNAPSHOT"]
+```
+[](/dependency)
 
 Compile [Hiccup](https://github.com/weavejester/hiccup) template functions into HTML files.
 
@@ -29,8 +33,8 @@ From a boot task:
 
 From CLI:
 
-``
+```
 boot hiccup -ns foo.templates.core \
             -f index.html=foo.templates/index \
             -f tests.html=foo.templates/tests
-``
+```
