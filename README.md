@@ -30,5 +30,7 @@ From a boot task:
 From CLI:
 
 ``
-boot hiccup -ns foo.templates.core -f index.html=foo.templates/index -f tests.html=foo.templates/tests
+boot hiccup -ns foo.templates.core \
+            -f index.html=foo.templates/index \
+            -f tests.html=foo.templates/tests
 ``
