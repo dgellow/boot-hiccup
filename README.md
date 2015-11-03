@@ -1,8 +1,8 @@
 # boot-hiccup [![Circle CI](https://circleci.com/gh/dgellow/boot-hiccup.svg?style=svg)](https://circleci.com/gh/dgellow/boot-hiccup)
 
 [](dependency)
-```
-[dgellow/boot-hiccup "0.1.0-SNAPSHOT"]
+```clojure
+[dgellow/boot-hiccup "0.1.0-SNAPSHOT"] ;; latest release
 ```
 [](/dependency)
 
