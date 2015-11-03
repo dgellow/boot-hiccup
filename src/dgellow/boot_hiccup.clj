@@ -8,10 +8,14 @@
   (let [output-file (io/file output-dir filename)
         f-resolved (resolve f)]
     (when f-resolved
-      (info "• %s -> %s\n" (str f) filename)
-      (doto output-file
-        io/make-parents
-        (spit (html ((resolve f))))))))
+      (let [f-result (f-resolved)
+            content (if (string? f-result)
+                      f-result
+                      (html f-result))]
+        (info "• %s -> %s\n" (str f) filename)
+        (doto output-file
+          io/make-parents
+          (spit content))))))
 
 (core/deftask hiccup
   "Compile Hiccup templates"
