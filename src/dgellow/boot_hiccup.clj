@@ -13,7 +13,7 @@
         io/make-parents
         (spit (html ((resolve f))))))))
 
-(deftask hiccup
+(core/deftask hiccup
   "Compile Hiccup templates"
   [ns namespaces NS #{sym} "Namespaces containing template functions"
    f files FILENAME=TEMPLATE-FN #{[str sym]} "A map pairing filenames and template functions"]
