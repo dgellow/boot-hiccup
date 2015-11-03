@@ -13,5 +13,5 @@
       :version +version+
       :description "Boot task to compile Hiccup template functions"
       :url "https://github.com/dgellow/boot-hiccup"
-      :scm {:url "https://github.com/dgellow/boot-hiccup.git"}
+      :scm {:url "https://github.com/dgellow/boot-hiccup"}
       :license {"EPL" "http://www.eclipse.org/legal/epl-v10.html"}})
