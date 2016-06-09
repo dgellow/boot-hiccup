@@ -2,7 +2,7 @@
 
 [](dependency)
 ```clojure
-[dgellow/boot-hiccup "0.2.1-SNAPSHOT"] ;; latest release
+[dgellow/boot-hiccup "1.0.0"] ;; latest release
 ```
 [](/dependency)
 
