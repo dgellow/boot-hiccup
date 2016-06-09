@@ -10,31 +10,24 @@ Compile [Hiccup](https://github.com/weavejester/hiccup) template functions into 
 
 ## Usage
 
-In your `build.boot`, add `[dgellow/boot-hiccup "0.1.0-SNAPSHOT"]` as a dependency then require the task from `dgellow.boot-hiccup`.
+In your `build.boot`, add `dgellow/boot-hiccup` as a dependency then `require` the task from the namespace `dgellow.boot-hiccup`:
 
-## Exemple
-
-From a boot task:
-
+```clojure
+(set-env! :dependencies '[[dgellow/boot-hiccup "X.Y.Z"]])
+(require '[dgellow.boot-hiccup :refer [hiccup]])
 ```
-(set-env!
- :source-paths #{"src"}
- :dependencies '[[dgellow/boot-hiccup "0.1.0-SNAPSHOT" :scope "test"]
-                 [org.clojure/clojure "1.7.0"]])
 
-(require
- '[dgellow.boot-hiccup :refer [hiccup]])
+### From `build.boot`, in a task
 
+```clojure
 (deftask run-hiccup []
-  (comp (hiccup :namespaces #{foo.templates}
-                :files {"index.html" 'foo.templates/index
+  (comp (hiccup :files {"index.html" 'foo.templates/index
                         "tests.html" 'foo.templates/tests})))
 ```
 
-From CLI:
+### From the terminal (cli)
 
 ```
-boot hiccup -ns foo.templates.core \
-            -f index.html=foo.templates/index \
+boot hiccup -f index.html=foo.templates/index \
             -f tests.html=foo.templates/tests
 ```
