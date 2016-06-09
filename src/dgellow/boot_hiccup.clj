@@ -1,35 +1,50 @@
 (ns dgellow.boot-hiccup
   (:require [clojure.java.io :as io]
             [hiccup.core :refer [html]]
-            [boot.core :as core]
-            [boot.util :refer [info]]))
+            [boot.core :as core :refer [deftask]]
+            [boot.util :as util]))
 
-(defn- hiccup->file [output-dir [filename f]]
-  (let [output-file (io/file output-dir filename)
+(defn- log
+  ([fn-name msg] (log fn-name msg nil))
+  ([fn-name msg lvl]
+   ((if (= :warn lvl) util/warn util/info)
+    (format "[%s] %s\n" fn-name msg))))
+
+(def ^{:private true} log-hiccup (partial log "hiccup"))
+
+(defn- hiccup->file [output-dir file f]
+  (let [output-file (io/file output-dir file)
         f-resolved (resolve f)]
-    (when f-resolved
+    (if-not f-resolved
+      (log-hiccup (format "Cannot resolve symbol %s" f) :warn)
       (let [f-result (f-resolved)
             content (if (string? f-result)
                       f-result
                       (html f-result))]
-        (info "• %s -> %s\n" (str f) filename)
+        (log-hiccup (format "• %s -> %s" (str f) file))
         (doto output-file
           io/make-parents
           (spit content))))))
 
-(core/deftask hiccup
+(deftask hiccup
   "Compile Hiccup templates"
-  [ns namespaces NS #{sym} "Namespaces containing template functions"
-   f files FILENAME=TEMPLATE-FN #{[str sym]} "A map pairing filenames and template functions"]
+  [f files FILENAME=TEMPLATE-FN #{[str sym]} "A map pairing filenames and template functions"]
   (let [output-dir (core/tmp-dir!)]
     (fn middleware [next-handler]
       (fn handler [fileset]
         (core/empty-dir! output-dir)
-        (when files
-          (info "Hiccup templates\n")
-          (dorun (map require namespaces))
-          (dorun (map (partial hiccup->file output-dir) files)))
-        (-> fileset
-           (core/add-resource output-dir)
-           core/commit!
-           next-handler)))))
+        (if-not files
+          (do
+            (log-hiccup "Missing :files param, do nothing." :warn)
+            (next-handler fileset))
+          (do
+            (log-hiccup "Hiccup templates")
+            (doseq [[file f] (seq files)]
+              (do
+                (let [ns (symbol (namespace f))]
+                  (require ns)
+                  (hiccup->file output-dir file f))))
+            (-> fileset
+               (core/add-resource output-dir)
+               core/commit!
+               next-handler)))))))
