@@ -31,3 +31,21 @@ In your `build.boot`, add `dgellow/boot-hiccup` as a dependency then `require` t
 boot hiccup -f index.html=foo.templates/index \
             -f tests.html=foo.templates/tests
 ```
+
+### With `watch`
+
+In the spirit of tightly focused composable tasks, the `hiccup` task doesn't do anything to reload code.
+So, if you want to use `hiccup` with `watch`, you should also use the `refresh` task from [boot-refresh] like so:
+
+```clojure
+(require '[samestep.boot-refresh :refer [refresh]])
+
+(deftask watch-hiccup []
+  (comp
+    (watch)
+    (refresh)
+    (hiccup :files {"index.html" 'foo.templates/index
+                    "tests.html" 'foo.templates/tests})))
+```
+
+[boot-refresh]: https://github.com/samestep/boot-refresh
